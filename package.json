@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/sunbang123/cinequick#readme",
   "dependencies": {
+    "dotenv": "^16.4.5",
     "express": "^4.19.2"
   }
 }
