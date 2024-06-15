@@ -18,6 +18,7 @@ app.use((req, res, next) => {
   next();
 });
 
+// kobis 일일 박스오피스 api 불러오기
 const apiKey = process.env.API_KEY;
 const baseUrl = 'https://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json';
 

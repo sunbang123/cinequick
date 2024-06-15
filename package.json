@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/sunbang123/cinequick#readme",
   "dependencies": {
+    "bootstrap-icons": "^1.11.3",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.19.2",
