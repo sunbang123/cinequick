@@ -1,0 +1,21 @@
+[build]
+  functions = "functions"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[dev]
+  command = "npm run start"
+  targetPort = 3000
+  port = 8888
+
+[functions]
+  node_bundler = "esbuild"
+
+[[plugins]]
+  package = "@netlify/plugin-functions-core"
+
+[env]
+  API_KEY=80fb590d75c817e7056afad7e7669079
