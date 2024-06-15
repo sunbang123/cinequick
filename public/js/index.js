@@ -22,6 +22,49 @@ function fetchMoviesDetail() {
     .catch(error => console.error('Error fetching movies:', error));
 }
 
-const btn = document.querySelector('#btnGenMoviesDetail');
+const IMAGE_BASE_URL = 'http://image.tmdb.org/t/p/original';
 
-btn.addEventListener('click', fetchMoviesDetail);
+function fetchNowPlayingMovies() {
+    fetch('/movies/now_playing')
+    .then(response => response.json())
+    .then((json) => {
+        const ul = document.querySelector('#nowPlayingList');
+        ul.innerHTML = '';
+        if (json.result && Array.isArray(json.result)) {
+            for (let i = 0; i < json.result.length; i++) {
+                ul.innerHTML += `<li>${json.result[i].title} - ${json.result[i].release_date} 첫 상영</li><img src='${IMAGE_BASE_URL}${json.result[i].poster_path}' width="250px"/> `;
+            }
+        } else {
+            ul.innerHTML = `<li>No movies found</li>`;
+        }
+        console.log(json);
+    })
+    .catch(error => console.error('Error fetching movies:', error));
+}
+
+
+function fetchUpcomingMovies() {
+    fetch('/movies/upcoming')
+    .then(response => response.json())
+    .then((json) => {
+        const ul = document.querySelector('#upcomingList');
+        ul.innerHTML = '';
+        if (json.result && Array.isArray(json.result)) {
+            for (let i = 0; i < json.result.length; i++) {
+                ul.innerHTML += `<li>${json.result[i].title} - ${json.result[i].release_date} 첫 상영</li><img src='${IMAGE_BASE_URL}${json.result[i].poster_path}' width="250px"/> `;
+            }
+        } else {
+            ul.innerHTML = `<li>No movies found</li>`;
+        }
+        console.log(json);
+    })
+    .catch(error => console.error('Error fetching movies:', error));
+}
+
+const btn1 = document.querySelector('#btnGenMoviesDetail');
+const btn2 = document.querySelector('#btnGenCurrentMoviesDetail');
+const btn3 = document.querySelector('#btnGenUpcomingMoviesDetail');
+
+btn1.addEventListener('click', fetchMoviesDetail);
+btn2.addEventListener('click', fetchNowPlayingMovies);
+btn3.addEventListener('click', fetchUpcomingMovies);

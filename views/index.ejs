@@ -51,9 +51,8 @@
         <button class="btn btn-primary" id="btnGenMoviesDetail">
             일별 박스오피스
         </button>
-        <button class="btn btn-primary" id="btnGenCurrentMoviesDetail">
-            예매하기
-        </button>
+        <button class="btn btn-primary" id="btnGenCurrentMoviesDetail">현재 상영작 불러오기</button>
+        <button class="btn btn-primary" id="btnGenUpcomingMoviesDetail">상영 예정작 불러오기</button>
         </div>
     </div>
 
@@ -139,7 +138,15 @@
               aria-labelledby="v-pills-profile-tab"
               tabindex="0"
             >
-              ...
+              <ul id="nowPlayingList">
+                <% if (movies && movies.length > 0) { %>
+                  <% movies.forEach(movie => { %>
+                    <li><%= movie.title %> - <%= movie.release_date %></li>
+                  <% }); %>
+                <% } else { %>
+                  <li>No movies available</li>
+                <% } %>
+              </ul>          
             </div>
             <div
               class="tab-pane fade"
@@ -148,7 +155,15 @@
               aria-labelledby="v-pills-messages-tab"
               tabindex="0"
             >
-              ...
+              <ul id="upcomingList">
+                <% if (movies && movies.length > 0) { %>
+                  <% movies.forEach(movie => { %>
+                    <li><%= movie.title %> - <%= movie.release_date %></li>
+                  <% }); %>
+                <% } else { %>
+                  <li>No movies available</li>
+                <% } %>
+              </ul>
             </div>
             <div
               class="tab-pane fade"

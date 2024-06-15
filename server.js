@@ -38,6 +38,58 @@ app.get('/movies', async (req, res) => {
   res.json({ result });
 });
 
+// TMDb API 설정
+const tmdbApiKey = process.env.TMDB_API_KEY;
+const tmdbBaseUrl = 'https://api.themoviedb.org/3';
+
+// 현재 상영 중인 영화 불러오기
+app.get('/movies/now_playing', async (req, res) => {
+  const query = qs.stringify({
+    api_key: tmdbApiKey,
+    language: 'ko-KR',
+    region: 'KR'
+  });
+
+  const url = `${tmdbBaseUrl}/movie/now_playing?${query}`;
+
+  try {
+    const fetch = (await import('node-fetch')).default;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    const result = data.results || [];
+    res.json({ result });
+  } catch (error) {
+    console.error('현재 상영 중인 영화를 불러오는 중 오류 발생:', error);
+    res.status(500).json({ error: '현재 상영 중인 영화를 불러오는 데 실패했습니다.' });
+  }
+});
+
+
+// 상영 예정작 불러오기
+app.get('/movies/upcoming', async (req, res) => {
+  const query = qs.stringify({
+    api_key: tmdbApiKey,
+    language: 'ko-KR',
+    region: 'KR'
+  });
+
+  const url = `${tmdbBaseUrl}/movie/upcoming?${query}`;
+
+  try {
+    const fetch = (await import('node-fetch')).default;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    const result = data.results || [];
+    res.json({ result });
+  } catch (error) {
+    console.error('상영예정작 영화를 불러오는 중 오류 발생:', error);
+    res.status(500).json({ error: '상영예정작 영화를 불러오는 데 실패했습니다.' });
+  }
+});
+
+
 // EJS 템플릿을 렌더링하는 라우트 추가
 app.get('/', (req, res) => {
   res.render('index', { movies: [] });
