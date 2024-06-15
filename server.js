@@ -4,6 +4,11 @@ require('dotenv').config();
 const app = express();
 const port = 3000;
 
+// EJS 설정
+app.set('view engine', 'ejs');
+app.set('views', './views');
+
+// 정적 파일 제공
 app.use(express.static("public"));
 app.use(express.json());
 app.disable("x-powered-by");
@@ -28,9 +33,13 @@ app.get('/movies', async (req, res) => {
   const response = await fetch(url);
   const data = await response.json();
 
-  // 반환되는 데이터의 구조를 확인하고 필요한 경우 수정합니다.
   const result = data.boxOfficeResult?.dailyBoxOfficeList || [];
   res.json({ result });
+});
+
+// EJS 템플릿을 렌더링하는 라우트 추가
+app.get('/', (req, res) => {
+  res.render('index', { movies: [] });
 });
 
 app.listen(port, () => {

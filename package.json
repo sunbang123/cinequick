@@ -20,6 +20,7 @@
   "homepage": "https://github.com/sunbang123/cinequick#readme",
   "dependencies": {
     "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
     "express": "^4.19.2",
     "node-fetch": "^3.3.2",
     "qs": "^6.10.1"
