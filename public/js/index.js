@@ -1,8 +1,10 @@
-function fetchMoviesDetail() {
-    const targetDateInput = document.querySelector('#targetDate'); // 날짜 입력 필드
-    const targetDate = new Date(targetDateInput.value);
-    const targetDt = targetDateInput.value 
-        ? `${targetDate.getFullYear()}${('0' + (targetDate.getMonth() + 1)).slice(-2)}${('0' + targetDate.getDate()).slice(-2)}` // 날짜 문자열 반환
+document.addEventListener('DOMContentLoaded', function() {
+    const today = new Date();
+    // 어제 날짜를 계산합니다.
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+    const targetDt = yesterday 
+        ? `${yesterday.getFullYear()}${('0' + (yesterday.getMonth() + 1)).slice(-2)}${('0' + yesterday.getDate()).slice(-2)}` // 날짜 문자열 반환
         : '20230314'; // 기본값으로 20230314 설정
 
     fetch(`/movies?targetDt=${targetDt}`)
@@ -17,40 +19,42 @@ function fetchMoviesDetail() {
         } else {
             ul.innerHTML = `<li>No movies found</li>`;
         }
-        console.log(json);
     })
     .catch(error => console.error('Error fetching movies:', error));
-}
+});
 
 const IMAGE_BASE_URL = 'http://image.tmdb.org/t/p/original';
 
-function fetchNowPlayingMovies() {
+document.addEventListener('DOMContentLoaded', function() {
     fetch('/movies/now_playing')
     .then(response => response.json())
     .then((json) => {
         const ul = document.querySelector('#nowPlayingList');
         ul.innerHTML = '';
         if (json.result && Array.isArray(json.result)) {
-            for (let i = 0; i < json.result.length; i++) {
-                ul.innerHTML += `<li>${json.result[i].title} - ${json.result[i].release_date} 첫 상영</li><img src='${IMAGE_BASE_URL}${json.result[i].poster_path}' width="250px"/> `;
+            for (let i = 0; i < 7; i++) {
+                ul.innerHTML += `<li>${json.result[i].title} - ${json.result[i].release_date} 첫 상영</li><img src='${IMAGE_BASE_URL}${json.result[i].poster_path}' width="250px"/> </li>`;
             }
         } else {
             ul.innerHTML = `<li>No movies found</li>`;
         }
+        r = Math.floor(Math.random() * 5);
+        ul.innerHTML += `<img src='${IMAGE_BASE_URL}${json.result[r].backdrop_path}' width="250px"/>`;
+
         console.log(json);
     })
+
     .catch(error => console.error('Error fetching movies:', error));
-}
+});
 
-
-function fetchUpcomingMovies() {
+document.addEventListener('DOMContentLoaded', function() {
     fetch('/movies/upcoming')
     .then(response => response.json())
     .then((json) => {
         const ul = document.querySelector('#upcomingList');
         ul.innerHTML = '';
         if (json.result && Array.isArray(json.result)) {
-            for (let i = 0; i < json.result.length; i++) {
+            for (let i = 0; i < 7; i++) {
                 ul.innerHTML += `<li>${json.result[i].title} - ${json.result[i].release_date} 첫 상영</li><img src='${IMAGE_BASE_URL}${json.result[i].poster_path}' width="250px"/> `;
             }
         } else {
@@ -59,12 +63,4 @@ function fetchUpcomingMovies() {
         console.log(json);
     })
     .catch(error => console.error('Error fetching movies:', error));
-}
-
-const btn1 = document.querySelector('#btnGenMoviesDetail');
-const btn2 = document.querySelector('#btnGenCurrentMoviesDetail');
-const btn3 = document.querySelector('#btnGenUpcomingMoviesDetail');
-
-btn1.addEventListener('click', fetchMoviesDetail);
-btn2.addEventListener('click', fetchNowPlayingMovies);
-btn3.addEventListener('click', fetchUpcomingMovies);
+});
