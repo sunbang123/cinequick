@@ -47,8 +47,9 @@
     <div class="p-5 mb-4 bg-body-tertiary rounded-3">
       <div class="container col-xl-10 col-xxl-8">
         <div class="row align-items-center g-lg-5">
-          <div class="col-lg-7 text-center text-lg-start">
             <h1 class="display-4 fw-bold lh-1 mb-3">최신 영화 배너</h1>
+            <% const randomIndex = Math.floor(Math.random() * 4); %>
+            <img src="<%= imageBaseUrl %><%= nowPlayingMovies[randomIndex].backdrop_path %>" width="250px" />
             <p class="col-lg-10 fs-4">영화 소개 내용을 입력하세요.</p>
           </div>
           <div class="col-md-10 mx-auto col-lg-5">
