@@ -41,9 +41,15 @@ async function fetchMovieData(url) {
 
 // 영화 데이터 렌더링 라우트
 app.get('/', async (req, res) => {
+    const today = new Date();
+    // 어제 날짜를 계산합니다.
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+    const targetDt = yesterday 
+        ? `${yesterday.getFullYear()}${('0' + (yesterday.getMonth() + 1)).slice(-2)}${('0' + yesterday.getDate()).slice(-2)}` // 날짜 문자열 반환
+        : '20230314'; // 기본값으로 20230314 설정
   try {
-    const targetDt = req.query.targetDt || '20230314';
-    const dailyBoxOfficeQuery = qs.stringify({
+      const dailyBoxOfficeQuery = qs.stringify({
       key: apiKey,
       targetDt: targetDt
     });
@@ -73,6 +79,7 @@ app.get('/', async (req, res) => {
     const upcomingMovies = upcomingData.results || [];
 
     res.render('index', {
+      today: today,
       dailyBoxOfficeMovies: dailyBoxOfficeMovies,
       nowPlayingMovies: nowPlayingMovies,
       upcomingMovies: upcomingMovies,

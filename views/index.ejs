@@ -44,20 +44,43 @@
           </header>
     </div>
     
-    <div class="p-5 mb-4 bg-body-tertiary rounded-3">
+    <div class="mb-4">
       <div class="container col-xl-10 col-xxl-8">
         <div class="row align-items-center g-lg-5">
-            <h1 class="display-4 fw-bold lh-1 mb-3">최신 영화 배너</h1>
+          <div class="card text-bg-dark text-center text-lg-start p-0 border border-0">
             <% const randomIndex = Math.floor(Math.random() * 4); %>
-            <img src="<%= imageBaseUrl %><%= nowPlayingMovies[randomIndex].backdrop_path %>" width="250px" />
-            <p class="col-lg-10 fs-4">영화 소개 내용을 입력하세요.</p>
-          </div>
-          <div class="col-md-10 mx-auto col-lg-5">
-            <ul>
-              <% dailyBoxOfficeMovies.forEach(movie => { %>
-                <li><%= movie.movieNm %> - <%= movie.openDt %> - <%= movie.audiAcc %> 관객</li>
-              <% }); %>
-            </ul>
+            <img src="<%= imageBaseUrl %><%= nowPlayingMovies[randomIndex].backdrop_path %>" style="filter: brightness(0.7);" class="card-img" alt="nowPlayingMovies[randomIndex].title" />
+            <div class="card-img-overlay row">
+              <div class="col-lg-9 row">
+                <h1 class="card-title fw-bold lh-1 mb-3 p-2 ps-3">[Best] <%= nowPlayingMovies[randomIndex].title %></h1>
+                <div class="col-md-5">
+                  <img src="<%= imageBaseUrl %><%= nowPlayingMovies[randomIndex].poster_path %>" class="img-fluid rounded" alt="nowPlayingMovies[randomIndex].title" />
+                </div>
+                <div class="col-md-7">
+                  <p class="card-text mt-5"><%= nowPlayingMovies[randomIndex].overview.slice(0, 200) %> ...</p>
+                  <p class="card-text mt-5"><small><%= nowPlayingMovies[randomIndex].release_date %> 출시 평점 <%= Math.round(nowPlayingMovies[randomIndex].vote_average * 10) / 10 %> / 10.0</small>
+                    <button class="btn btn-dark ms-4">예매하기</button>
+                  </p>
+                </div>
+              </div>
+              <div class="col-lg-3 rounded pt-4" style="background: #ffffffbd;">
+                <ul class="list-group list-group-flush bg-transparent">
+                  <h4 class="fw-bold ms-2 text-dark">최신 예매 순위</h4>
+                  <p class="fw-light text-dark ms-2 me-2">(일일 박스오피스 업데이트)</p>
+                  <% i = 0 %>
+                  <% dailyBoxOfficeMovies.forEach(movie => { %>
+                      <% i += 1 %>
+                    <li class="list-group-item bg-transparent border-dark">
+                      <%= i %>
+                      <%= movie.movieNm %>
+                      <span class="text-primary">
+                        <% if(movie.rankOldAndNew == 'NEW'){ %> [<%= movie.rankOldAndNew %>] <% } %>
+                        </span>
+                      </li>
+                  <% }); %>
+                </ul>    
+              </div>
+            </div>
           </div>
         </div>
       </div>
