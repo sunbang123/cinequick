@@ -51,14 +51,10 @@
             <p class="col-lg-10 fs-4">영화 소개 내용을 입력하세요.</p>
           </div>
           <div class="col-md-10 mx-auto col-lg-5">
-            <ul id="movieList">
-              <% if (movies && movies.length > 0) { %>
-                <% movies.forEach(movie => { %>
-                  <li><%= movie.title %> - <%= movie.release_date %></li>
-                <% }); %>
-              <% } else { %>
-                <li>No movies available</li>
-              <% } %>
+            <ul>
+              <% dailyBoxOfficeMovies.forEach(movie => { %>
+                <li><%= movie.movieNm %> - <%= movie.openDt %> - <%= movie.audiAcc %> 관객</li>
+              <% }); %>
             </ul>
           </div>
         </div>
@@ -118,15 +114,14 @@
               aria-labelledby="v-pills-profile-tab"
               tabindex="0"
             >
-              <ul id="nowPlayingList">
-                <% if (movies && movies.length > 0) { %>
-                  <% movies.forEach(movie => { %>
-                    <li><%= movie.title %> - <%= movie.release_date %></li>
-                  <% }); %>
-                <% } else { %>
-                  <li>No movies available</li>
-                <% } %>
-              </ul>          
+            <ul>
+              <% nowPlayingMovies.forEach(movie => { %>
+                <li>
+                  <p><%= movie.title %> - <%= movie.release_date %> 첫 상영</p>
+                  <img src="<%= imageBaseUrl %><%= movie.poster_path %>" width="250px" />
+                </li>
+              <% }); %>
+              <% let randomMovie = nowPlayingMovies[Math.floor(Math.random() * nowPlayingMovies.length)]; %>
             </div>
             <div
               class="tab-pane fade"
@@ -135,15 +130,14 @@
               aria-labelledby="v-pills-messages-tab"
               tabindex="0"
             >
-              <ul id="upcomingList">
-                <% if (movies && movies.length > 0) { %>
-                  <% movies.forEach(movie => { %>
-                    <li><%= movie.title %> - <%= movie.release_date %></li>
-                  <% }); %>
-                <% } else { %>
-                  <li>No movies available</li>
-                <% } %>
-              </ul>
+            <ul>
+              <% upcomingMovies.forEach(movie => { %>
+                <li>
+                  <p><%= movie.title %> - <%= movie.release_date %> 첫 상영</p>
+                  <img src="<%= imageBaseUrl %><%= movie.poster_path %>" width="250px" />
+                </li>
+              <% }); %>
+            </ul>
             </div>
             <div
               class="tab-pane fade"
@@ -163,6 +157,5 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
-    <script src="/js/index.js"></script>
   </body>
 </html>
