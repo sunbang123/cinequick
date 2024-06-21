@@ -3,6 +3,7 @@ const qs = require('qs');
 require('dotenv').config();
 const app = express();
 const port = 3000;
+const path = require('path');
 
 // EJS 설정
 app.set('view engine', 'ejs');
@@ -39,57 +40,79 @@ async function fetchMovieData(url) {
   }
 }
 
+const today = new Date();
+const imageBaseUrl = 'http://image.tmdb.org/t/p/original';
+
+// 어제 날짜를 계산하는 함수
+function getYesterdayDate() {
+  const yesterday = new Date(today);
+  yesterday.setDate(today.getDate() - 1);
+  return `${yesterday.getFullYear()}${('0' + (yesterday.getMonth() + 1)).slice(-2)}${('0' + yesterday.getDate()).slice(-2)}`;
+}
+
+// 일일 박스오피스 데이터를 가져오는 함수
+async function fetchDailyBoxOfficeData(targetDt) {
+  const dailyBoxOfficeQuery = qs.stringify({
+    key: apiKey,
+    targetDt: targetDt
+  });
+
+  const dailyBoxOfficeUrl = `${baseUrl}?${dailyBoxOfficeQuery}`;
+  const dailyBoxOfficeData = await fetchMovieData(dailyBoxOfficeUrl);
+  return dailyBoxOfficeData.boxOfficeResult?.dailyBoxOfficeList || [];
+}
+
+// 현재 상영 중인 영화 데이터를 가져오는 함수
+async function fetchNowPlayingData() {
+  const nowPlayingQuery = qs.stringify({
+    api_key: tmdbApiKey,
+    language: 'ko-KR',
+    region: 'KR'
+  });
+
+  const nowPlayingUrl = `${tmdbBaseUrl}/movie/now_playing?${nowPlayingQuery}`;
+  const nowPlayingData = await fetchMovieData(nowPlayingUrl);
+  return nowPlayingData.results || [];
+}
+
+// 개봉 예정 영화 데이터를 가져오는 함수
+async function fetchUpcomingData() {
+  const upcomingQuery = qs.stringify({
+    api_key: tmdbApiKey,
+    language: 'ko-KR',
+    region: 'KR'
+  });
+
+  const upcomingUrl = `${tmdbBaseUrl}/movie/upcoming?${upcomingQuery}`;
+  const upcomingData = await fetchMovieData(upcomingUrl);
+  return upcomingData.results || [];
+}
+
 // 영화 데이터 렌더링 라우트
 app.get('/', async (req, res) => {
-    const today = new Date();
-    // 어제 날짜를 계산합니다.
-    const yesterday = new Date(today);
-    yesterday.setDate(today.getDate() - 1);
-    const targetDt = yesterday 
-        ? `${yesterday.getFullYear()}${('0' + (yesterday.getMonth() + 1)).slice(-2)}${('0' + yesterday.getDate()).slice(-2)}` // 날짜 문자열 반환
-        : '20230314'; // 기본값으로 20230314 설정
   try {
-      const dailyBoxOfficeQuery = qs.stringify({
-      key: apiKey,
-      targetDt: targetDt
-    });
-
-    const dailyBoxOfficeUrl = `${baseUrl}?${dailyBoxOfficeQuery}`;
-    const dailyBoxOfficeData = await fetchMovieData(dailyBoxOfficeUrl);
-    const dailyBoxOfficeMovies = dailyBoxOfficeData.boxOfficeResult?.dailyBoxOfficeList || [];
-
-    const nowPlayingQuery = qs.stringify({
-      api_key: tmdbApiKey,
-      language: 'ko-KR',
-      region: 'KR'
-    });
-
-    const nowPlayingUrl = `${tmdbBaseUrl}/movie/now_playing?${nowPlayingQuery}`;
-    const nowPlayingData = await fetchMovieData(nowPlayingUrl);
-    const nowPlayingMovies = nowPlayingData.results || [];
-
-    const upcomingQuery = qs.stringify({
-      api_key: tmdbApiKey,
-      language: 'ko-KR',
-      region: 'KR'
-    });
-
-    const upcomingUrl = `${tmdbBaseUrl}/movie/upcoming?${upcomingQuery}`;
-    const upcomingData = await fetchMovieData(upcomingUrl);
-    const upcomingMovies = upcomingData.results || [];
+    const targetDt = getYesterdayDate();
+    const dailyBoxOfficeMovies = await fetchDailyBoxOfficeData(targetDt);
+    const nowPlayingMovies = await fetchNowPlayingData();
+    const upcomingMovies = await fetchUpcomingData();
 
     res.render('index', {
       today: today,
       dailyBoxOfficeMovies: dailyBoxOfficeMovies,
       nowPlayingMovies: nowPlayingMovies,
       upcomingMovies: upcomingMovies,
-      imageBaseUrl: 'http://image.tmdb.org/t/p/original'
+      imageBaseUrl: imageBaseUrl
     });
     
   } catch (error) {
     console.error('Error rendering movie data:', error);
     res.status(500).json({ error: 'Failed to render movie data' });
   }
+});
+
+// details 라우트
+app.get('/details', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'details', 'main.html'));
 });
 
 app.listen(port, () => {
