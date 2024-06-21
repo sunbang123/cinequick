@@ -29,13 +29,13 @@
               </ul>
             </div>
           </nav>
-          <header class="py-3 mb-4 border-bottom">
+          <header class="py-3 mb-4 border-bottom text-bg-dark">
             <div class="container d-flex flex-wrap justify-content-center">
               <ul class="nav me-auto">
-                <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2 active" aria-current="page">영화</a></li>
-                <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2">예매</a></li>
-                <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2">극장</a></li>
-                <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2">이벤트</a></li>
+                <li class="nav-item"><a href="#" class="nav-link link-light px-2 active" aria-current="page">영화</a></li>
+                <li class="nav-item"><a href="#" class="nav-link link-light px-2">예매</a></li>
+                <li class="nav-item"><a href="#" class="nav-link link-light px-2">극장</a></li>
+                <li class="nav-item"><a href="#" class="nav-link link-light px-2">이벤트</a></li>
               </ul>
               <form class="col-12 col-lg-auto mb-3 mb-lg-0" role="search">
                 <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
@@ -45,8 +45,8 @@
     </div>
     
     <div class="mb-4">
-      <div class="container col-xl-10 col-xxl-8">
-        <div class="row align-items-center g-lg-5">
+      <div class="container mb-5">
+        <div class="row align-items-center g-lg-3">
           <div class="card text-bg-dark text-center text-lg-start p-0 border border-0">
             <% const randomIndex = Math.floor(Math.random() * 4); %>
             <img src="<%= imageBaseUrl %><%= nowPlayingMovies[randomIndex].backdrop_path %>" style="filter: brightness(0.7);" class="card-img" alt="nowPlayingMovies[randomIndex].title" />
@@ -57,7 +57,7 @@
                   <img src="<%= imageBaseUrl %><%= nowPlayingMovies[randomIndex].poster_path %>" class="img-fluid rounded" alt="nowPlayingMovies[randomIndex].title" />
                 </div>
                 <div class="col-md-7">
-                  <p class="card-text mt-5"><%= nowPlayingMovies[randomIndex].overview.slice(0, 200) %> ...</p>
+                  <p class="card-text mt-5"><%= nowPlayingMovies[randomIndex].overview %></p>
                   <p class="card-text mt-5"><small><%= nowPlayingMovies[randomIndex].release_date %> 출시 평점 <%= Math.round(nowPlayingMovies[randomIndex].vote_average * 10) / 10 %> / 10.0</small>
                     <button class="btn btn-dark ms-4">예매하기</button>
                   </p>
@@ -74,7 +74,7 @@
                       <%= i %>
                       <%= movie.movieNm %>
                       <span class="text-primary">
-                        <% if(movie.rankOldAndNew == 'NEW'){ %> [<%= movie.rankOldAndNew %>] <% } %>
+                        <% if(movie.rankOldAndNew == 'NEW'){ %> <span class="badge bg-primary">NEW</span> <% } %>
                         </span>
                       </li>
                   <% }); %>
@@ -86,99 +86,122 @@
       </div>
     </div>
 
-      <div class="container-sm">
-        <div class="d-flex align-items-start">
-          <div
-            class="nav flex-column nav-pills me-3"
-            id="v-pills-tab"
-            role="tablist"
-            aria-orientation="vertical"
+      <div class="container">
+        <div class="row align-items-center g-lg-3 mb-5">
+          <img class="img-fluid p-0 rounded" src="/img/banner.png">
+        </div>
+      </div> 
+
+      <div class="container">
+      <div class="row align-items-start">
+        <div
+          class="col-lg-2 nav nav-pills"
+          id="v-pills-tab"
+          role="tablist"
+          aria-orientation="vertical"
+        >
+          <button
+            class="nav-link active mb-3"
+            id="v-pills-profile-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#v-pills-profile"
+            type="button"
+            role="tab"
+            aria-controls="v-pills-profile"
+            aria-selected="false"
           >
-            <button
-              class="nav-link active"
-              id="v-pills-profile-tab"
-              data-bs-toggle="pill"
-              data-bs-target="#v-pills-profile"
-              type="button"
-              role="tab"
-              aria-controls="v-pills-profile"
-              aria-selected="false"
-            >
-              Profile
-            </button>
-            <button
-              class="nav-link"
-              id="v-pills-messages-tab"
-              data-bs-toggle="pill"
-              data-bs-target="#v-pills-messages"
-              type="button"
-              role="tab"
-              aria-controls="v-pills-messages"
-              aria-selected="false"
-            >
-              Messages
-            </button>
-            <button
-              class="nav-link"
-              id="v-pills-settings-tab"
-              data-bs-toggle="pill"
-              data-bs-target="#v-pills-settings"
-              type="button"
-              role="tab"
-              aria-controls="v-pills-settings"
-              aria-selected="false"
-            >
-              Settings
-            </button>
-          </div>
-          <div class="tab-content" id="v-pills-tabContent">
-            <div
-              class="tab-pane fade show active"
-              id="v-pills-profile"
-              role="tabpanel"
-              aria-labelledby="v-pills-profile-tab"
-              tabindex="0"
-            >
-            <ul>
-              <% nowPlayingMovies.forEach(movie => { %>
-                <% if (movie.poster_path != null) {%>
-                  <li>
-                    <p><%= movie.title %> - <%= movie.release_date %> 첫 상영</p>
-                  <img src="<%= imageBaseUrl %><%= movie.poster_path %>" width="250px" />
-                </li>
-                <% } %>
-              <% }); %>
-              <% let randomMovie = nowPlayingMovies[Math.floor(Math.random() * nowPlayingMovies.length)]; %>
+            현재 상영
+          </button>
+          <button
+            class="nav-link mb-3"
+            id="v-pills-messages-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#v-pills-messages"
+            type="button"
+            role="tab"
+            aria-controls="v-pills-messages"
+            aria-selected="false"
+          >
+            상영 예정
+          </button>
+          <div class="toast show">
+            <div class="toast-header">
+              CineQuick Ads
+              <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
             </div>
-            <div
-              class="tab-pane fade"
-              id="v-pills-messages"
-              role="tabpanel"
-              aria-labelledby="v-pills-messages-tab"
-              tabindex="0"
-            >
-            <ul>
-              <% upcomingMovies.forEach(movie => { %>
-                <% if (movie.poster_path != null) {%>
-                <li>
-                  <p><%= movie.title %> - <%= movie.release_date %> 첫 상영</p>
-                  <img src="<%= imageBaseUrl %><%= movie.poster_path %>" width="250px" />
-                </li>
-                <% } %>
-              <% }); %>
-            </ul>
-            </div>
-            <div
-              class="tab-pane fade"
-              id="v-pills-settings"
-              role="tabpanel"
-              aria-labelledby="v-pills-settings-tab"
-              tabindex="0"
-            >
-              ...
+            <div class="toast-body p-1">
+              <img class="img-fluid w-auto" src="/img/ads.png" />
+              <p>
+                <a href="#" class="text-decoration-none">
+                  팝콘 먹으러 가기
+                  <i class="bi bi-arrow-right-circle"></i>
+                </a>
+              </p>
             </div>
           </div>
         </div>
+        <div class="col-lg-10 tab-content" id="v-pills-tabContent">
+          <div
+            class="tab-pane fade show active"
+            id="v-pills-profile"
+            role="tabpanel"
+            aria-labelledby="v-pills-profile-tab"
+            tabindex="0"
+          >
+          <div class="row">
+            <% nowPlayingMovies.forEach(movie => { %>
+              <% if (movie.poster_path != null) {%>
+                <div class="col-4 mb-4">
+                  <div class="card text-center">
+                    <div class="card-header">
+                      <%= movie.title %>
+                    </div>
+                    <div class="card-body">
+                      <p class="card-text" style="height: 350px; overflow: hidden;">
+                        <img class="img-fluid" src="<%= imageBaseUrl %><%= movie.poster_path %>" />
+                      </p>
+                      <a href="#" class="btn btn-primary">영화 정보보기</a>
+                    </div>
+                    <div class="card-footer text-body-secondary">
+                      (<%= movie.release_date.slice(6,10) %> 첫 상영)
+                    </div>
+                  </div>
+              </div>
+              <% } %>
+            <% }); %>
+            <% let randomMovie = nowPlayingMovies[Math.floor(Math.random() * nowPlayingMovies.length)]; %>
+          </div>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="v-pills-messages"
+            role="tabpanel"
+            aria-labelledby="v-pills-messages-tab"
+            tabindex="0"
+          >
+          <div class="row">
+            <% upcomingMovies.forEach(movie => { %>
+              <% if (movie.poster_path != null) {%>
+              <div class="col-4 mb-4">
+                <div class="card text-center">
+                  <div class="card-header">
+                    <%= movie.title %>
+                  </div>
+                  <div class="card-body">
+                    <p class="card-text" style="height: 350px; overflow: hidden;">
+                      <img class="img-fluid" src="<%= imageBaseUrl %><%= movie.poster_path %>" />
+                    </p>
+                    <a href="#" class="btn btn-primary">영화 정보보기</a>
+                  </div>
+                  <div class="card-footer text-body-secondary">
+                    (<%= movie.release_date.slice(6,10) %> 첫 상영)
+                  </div>
+                </div>
+              </div>
+              <% } %>
+            <% }); %>
+            </div>
+          </div>
     </div>
 
     <script
