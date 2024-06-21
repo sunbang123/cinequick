@@ -60,7 +60,7 @@
                 <div class="col-md-7">
                   <p class="card-text mt-5"><%= nowPlayingMovies[randomIndex].overview %></p>
                   <p class="card-text mt-5"><small><%= nowPlayingMovies[randomIndex].release_date %> 출시 평점 <%= Math.round(nowPlayingMovies[randomIndex].vote_average * 10) / 10 %> / 10.0</small>
-                    <button class="btn btn-dark ms-4">예매하기</button>
+                    <button class="btn btn-dark ms-4"><a class="text-white text-decoration-none" href="/details/">예매하기</a></button>
                   </p>
                 </div>
               </div>
@@ -165,7 +165,7 @@
                       <a href="#" class="btn btn-primary">영화 정보보기</a>
                     </div>
                     <div class="card-footer text-body-secondary">
-                      (<%= movie.release_date.slice(6,10) %> 첫 상영)
+                      (<%= movie.release_date %> 첫 상영)
                     </div>
                   </div>
                 </div>
@@ -202,7 +202,7 @@
                     <a href="#" class="btn btn-primary">영화 정보보기</a>
                   </div>
                   <div class="card-footer text-body-secondary">
-                    (<%= movie.release_date.slice(6,10) %> 첫 상영)
+                    (<%= movie.release_date %> 첫 상영)
                   </div>
                 </div>
               </div>
@@ -245,6 +245,5 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
-    <script src="/js/index.js"></script>
   </body>
 </html>

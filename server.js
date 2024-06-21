@@ -111,8 +111,26 @@ app.get('/', async (req, res) => {
 });
 
 // details 라우트
-app.get('/details', (req, res) => {
+app.get('/details', async(req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'details', 'main.html'));
+});
+
+app.get('/movie/api', async (req, res) => {
+  
+  try {
+    const nowPlayingMovies = await fetchNowPlayingData();
+    const upcomingMovies = await fetchUpcomingData();
+
+    res.json({
+      nowPlayingMovies: nowPlayingMovies,
+      upcomingMovies: upcomingMovies,
+      imageBaseUrl: imageBaseUrl
+    });        
+  } catch (error) {
+    console.error('Error rendering movie data:', error);
+    res.status(500).json({ error: 'Failed to render movie data' });
+  }
+
 });
 
 app.listen(port, () => {
