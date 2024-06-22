@@ -111,7 +111,7 @@ app.get('/', async (req, res) => {
 });
 
 // details 라우트
-app.get('/details', async(req, res) => {
+app.get(['/details/ticketing', '/details/login', '/details/account'], async(req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'details', 'main.html'));
 });
 
