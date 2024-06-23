@@ -2,7 +2,6 @@
 import { createLoginLayout } from './loginLayout.js';
 import { createAccountLayout } from './accountLayout.js';
 import { createTicketingLayout } from './ticketingLayout.js';
-
 window.addEventListener('load', () => {
     const currentPath = window.location.pathname;
 
