@@ -17,7 +17,7 @@
   </head>
   <body>
 
-    <div class="container-fuild pb-3">
+    <div class="pb-3">
         <nav class="py-2 bg-body-tertiary border-bottom">
             <div class="container d-flex flex-wrap">
                 <a href="/" class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto link-body-emphasis text-decoration-none">
@@ -25,18 +25,20 @@
                     <span class="fs-4" style="font-weight: bold;">CineQuick</span>
                 </a>
                 <ul class="nav">
-                <li class="nav-item"><a href="/details/login" class="nav-link link-body-emphasis p-3">로그인</a></li>
-                <li class="nav-item"><a href="/details/account" class="nav-link link-body-emphasis p-3">회원가입</a></li>
+                  <li class="nav-item logged-out"><a href="/details/login" class="nav-link link-body-emphasis p-3">로그인</a></li>
+                  <li class="nav-item logged-out"><a href="/details/account" class="nav-link link-body-emphasis p-3">회원가입</a></li>
+                  <li id="accountli" class="nav-item logged-in" style="display: none;"></li>
+                  <li id="loggedinli" class="nav-item logged-in" style="display: none;"><button class="btn p-0" id="logoutli" type="button" role="button"></button></li>
               </ul>
             </div>
           </nav>
           <header class="py-3 mb-4 border-bottom text-bg-dark">
             <div class="container d-flex flex-wrap justify-content-center">
               <ul class="nav me-auto">
-                <li class="nav-item"><a href="/details/" class="nav-link link-light px-2 active" aria-current="page">영화</a></li>
+                <li class="nav-item"><a href="#" class="nav-link link-light px-2 active" aria-current="page">영화</a></li>
                 <li class="nav-item"><a href="/details/ticketing" class="nav-link link-light px-2">예매</a></li>
-                <li class="nav-item"><a href="/details/" class="nav-link link-light px-2">극장</a></li>
-                <li class="nav-item"><a href="/details/" class="nav-link link-light px-2">이벤트</a></li>
+                <li class="nav-item"><a href="#" class="nav-link link-light px-2">극장</a></li>
+                <li class="nav-item"><a href="#" class="nav-link link-light px-2">이벤트</a></li>
               </ul>
               <form class="col-12 col-lg-auto mb-3 mb-lg-0 d-flex" role="search">
                 <input type="search" class="form-control" placeholder="영화제목 검색.." aria-label="Search">
@@ -78,6 +80,36 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"
     ></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const logoutli = document.getElementById('logoutli');
+        const loggedIn = localStorage.getItem('loggedIn') === 'true';
+        const username = localStorage.getItem('username');
+        const email = localStorage.getItem('userEmail');
+        const loggedOutItems = document.querySelectorAll('.nav-item.logged-out');
+        const loggedInItem1 = document.querySelector('#accountli');
+        const loggedInItem2 = document.querySelector('#loggedinli');
+        const loggedInItem3 = document.querySelector('#logoutli');
+  
+        if (loggedIn && email) {
+          loggedOutItems.forEach(item => item.style.display = 'none');
+          loggedInItem1.style.display = 'block';
+          loggedInItem1.innerHTML = `
+              <a href="#" class="nav-link link-body-emphasis p-3">${username}</a>`;
+          loggedInItem2.style.display = 'block';
+          loggedInItem3.innerHTML = `
+              <a href="#" class="nav-link link-body-emphasis p-3">로그아웃</a></li>`;
+        } else {
+          loggedOutItems.forEach(item => item.style.display = 'block');
+          loggedInItem1.style.display = 'none';
+          loggedInItem2.style.display = 'none';
+        }
+        logoutli.addEventListener('click', function() {
+          localStorage.setItem('loggedIn', 'false');
+          window.location.reload();
+        });
+      });
+    </script>
     </body>
 </html>
     
