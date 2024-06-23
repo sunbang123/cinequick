@@ -164,7 +164,36 @@
                       <p class="card-text">
                         <img class="img-fluid" src="<%= imageBaseUrl %><%= movie.poster_path %>" />
                       </p>
-                      <a href="#" class="btn btn-primary">영화 정보보기</a>
+                    </div>
+                    <!-- Button to Open the Modal -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal2">
+                      영화 정보보기
+                    </button>
+
+                    <!-- The Modal -->
+                    <div class="modal" id="myModal2">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+
+                          <!-- Modal Header -->
+                          <div class="modal-header">
+                            <h4 class="modal-title">영화 상세보기</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                          </div>
+
+                          <!-- Modal body -->
+                          <div class="modal-body">
+                            <p>영화설명: <%= movie.overview %></p>
+                            <p>영화평점: <%= Math.round(movie.vote_average * 10) / 10 %> / 10.0
+                          </div>
+
+                          <!-- Modal footer -->
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                          </div>
+
+                        </div>
+                      </div>
                     </div>
                     <div class="card-footer text-body-secondary">
                       (<%= movie.release_date %> 첫 상영)
@@ -192,22 +221,51 @@
             <% i = 0 %>
             <% upcomingMovies.forEach(movie => { %>
               <% if (movie.poster_path != null) {%>
-              <div class="col-md-4 mb-4">
-                <div class="card text-center">
-                  <div class="card-header">
-                    <%= movie.title %>
-                  </div>
-                  <div class="card-body">
-                    <p class="card-text">
-                      <img class="img-fluid" src="<%= imageBaseUrl %><%= movie.poster_path %>" />
-                    </p>
-                    <a href="#" class="btn btn-primary">영화 정보보기</a>
-                  </div>
-                  <div class="card-footer text-body-secondary">
-                    (<%= movie.release_date %> 첫 상영)
+                <div class="col-md-4 mb-4">
+                  <div class="card text-center">
+                    <div class="card-header">
+                      <%= movie.title %>
+                    </div>
+                    <div class="card-body">
+                      <p class="card-text">
+                        <img class="img-fluid" src="<%= imageBaseUrl %><%= movie.poster_path %>" />
+                      </p>
+                    </div>
+                    <!-- Button to Open the Modal -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+                      영화 정보보기
+                    </button>
+
+                    <!-- The Modal -->
+                    <div class="modal" id="myModal">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+
+                          <!-- Modal Header -->
+                          <div class="modal-header">
+                            <h4 class="modal-title">영화 상세보기</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                          </div>
+
+                          <!-- Modal body -->
+                          <div class="modal-body">
+                            <p>영화설명: <%= movie.overview %></p>
+                            <p>영화평점: <%= Math.round(movie.vote_average * 10) / 10 %> / 10.0
+                          </div>
+
+                          <!-- Modal footer -->
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-footer text-body-secondary">
+                      (<%= movie.release_date %> 첫 상영)
+                    </div>
                   </div>
                 </div>
-              </div>
               <% }%>
               <% if(i==5) { %>
                 <button type="button" class="btn btn-light" data-bs-toggle="collapse" data-bs-target="#upcomingMovies">더보기 / 접기</button>
