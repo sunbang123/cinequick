@@ -1,5 +1,5 @@
 // AccountLayout.js
-export function createAccountLayout() {
+function createAccountLayout() {
     const subLayoutContainer = document.getElementById('accountLayout');
     const subLayoutHTML = generateAccountLayoutHTML();
     subLayoutContainer.innerHTML = subLayoutHTML;
@@ -57,3 +57,5 @@ function generateAccountLayoutHTML(){
         </form>
     `;
 }
+
+export { createAccountLayout };

@@ -1,5 +1,5 @@
 // loginLayout.js
-export function createLoginLayout() {
+function createLoginLayout() {
   const subLayoutContainer = document.getElementById('loginLayout');
   const subLayoutHTML = generateLoginLayoutHTML();
   subLayoutContainer.innerHTML = subLayoutHTML;
@@ -53,3 +53,5 @@ function generateLoginLayoutHTML(){
       </div>
   `;
 }
+
+export { createLoginLayout };

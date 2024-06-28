@@ -1,5 +1,5 @@
 // ticketingLayout.js
-export function createTicketingLayout(data) {
+function createTicketingLayout(data) {
     const subLayoutContainer = document.getElementById('ticketingLayout');
     const subLayoutHTML = generateSubLayoutHTML(data);
     subLayoutContainer.innerHTML = subLayoutHTML;
@@ -120,3 +120,5 @@ function generateListItems_content(data) {
         </div>
     `).join('');
 }
+
+export { createTicketingLayout };
