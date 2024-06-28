@@ -88,34 +88,12 @@ async function fetchUpcomingData() {
   return upcomingData.results || [];
 }
 
-// 영화 데이터 렌더링 라우트
-app.get('/', async (req, res) => {
-  try {
-    const targetDt = getYesterdayDate();
-    const dailyBoxOfficeMovies = await fetchDailyBoxOfficeData(targetDt);
-    const nowPlayingMovies = await fetchNowPlayingData();
-    const upcomingMovies = await fetchUpcomingData();
-
-    res.render('index', {
-      today: today,
-      dailyBoxOfficeMovies: dailyBoxOfficeMovies,
-      nowPlayingMovies: nowPlayingMovies,
-      upcomingMovies: upcomingMovies,
-      imageBaseUrl: imageBaseUrl
-    });
-    
-  } catch (error) {
-    console.error('Error rendering movie data:', error);
-    res.status(500).json({ error: 'Failed to render movie data' });
-  }
-});
-
 // details 라우트
-app.get(['/details/ticketing', '/details/login', '/details/account'], async(req, res) => {
+app.get(['*/details/ticketing', '*/details/login', '*/details/account'], async(req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'details', 'main.html'));
 });
 
-app.get('/movie/api', async (req, res) => {
+app.get('*/movie/api', async (req, res) => {
   
   try {
     const nowPlayingMovies = await fetchNowPlayingData();
