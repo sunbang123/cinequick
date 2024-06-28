@@ -133,6 +133,30 @@ app.get('/movie/api', async (req, res) => {
 
 });
 
+
+// 모든 라우트를 처리하는 핸들러
+app.get('*', async (req, res) => {
+  try {
+    const targetDt = getYesterdayDate();
+    const dailyBoxOfficeMovies = await fetchDailyBoxOfficeData(targetDt);
+    const nowPlayingMovies = await fetchNowPlayingData();
+    const upcomingMovies = await fetchUpcomingData();
+
+    res.render('index', {
+      today: today,
+      dailyBoxOfficeMovies: dailyBoxOfficeMovies,
+      nowPlayingMovies: nowPlayingMovies,
+      upcomingMovies: upcomingMovies,
+      imageBaseUrl: imageBaseUrl
+    });
+    
+  } catch (error) {
+    console.error('Error rendering movie data:', error);
+    res.status(500).json({ error: 'Failed to render movie data' });
+  }
+});
+
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
